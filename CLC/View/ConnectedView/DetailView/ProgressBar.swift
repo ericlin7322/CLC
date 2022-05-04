@@ -22,12 +22,22 @@ struct ProgressBar: View {
             Circle()
                 .stroke(lineWidth: 20.0)
                 .opacity(0.3)
-                .foregroundColor(Color.green)
+                .foregroundColor(color())
             let circleValue = value / 100
             Circle()
                 .trim(from: 0.0, to: CGFloat(circleValue))
                 .stroke(style: StrokeStyle(lineWidth: 20.0, lineCap: .round, lineJoin: .round))
-                .foregroundColor(Color.green)
+                .foregroundColor(color())
         }.frame(width: UIScreen.main.bounds.width - 50)
+    }
+    
+    func color() -> Color {
+        if value > 40 {
+            return Color.green
+        }else if value > 20 {
+            return Color.yellow
+        }else {
+            return Color.red
+        }
     }
 }

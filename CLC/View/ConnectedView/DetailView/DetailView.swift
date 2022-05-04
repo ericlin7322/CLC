@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct DetailView: View {
-    @State var battery: Float = 10.0
-    @State var carName: String = "Car Name"
-    @State var carStatus: String = "Status: Following"
+    @State var battery = Car.now.battery
+    @State var carName = Car.now.name
+    @State var carStatus = Car.now.status
     var body: some View {
         VStack {
             Spacer()
             NameBar(name: self.$carName)
             Spacer()
-            StatusBar(name: self.$carStatus)
+            StatusBar(status: self.$carStatus)
             Spacer()
             ProgressBar(value: self.$battery)
             Spacer()

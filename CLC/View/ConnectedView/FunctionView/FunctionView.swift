@@ -14,6 +14,6 @@ struct FunctionView: View {
             StartStopButton()
             Spacer()
         }
-        .frame(minWidth: 0, maxWidth: .infinity, maxHeight: UIScreen.main.bounds.height / 4)
+        .frame(minWidth: 0, maxWidth: .infinity, maxHeight: UIScreen.main.bounds.height / 5)
     }
 }

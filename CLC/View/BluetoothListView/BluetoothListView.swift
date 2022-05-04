@@ -6,51 +6,20 @@
 //
 
 import SwiftUI
+import CoreMotion
 
 struct BluetoothListView: View {
-    private let ble = BLEConnection()
+    @ObservedObject var ble = BLEConnection.instance
     @Environment(\.colorScheme) var colorScheme
+    
     var body: some View {
         NavigationView {
-            List {
+            List(ble.peripherals) { peripheral in
                 NavigationLink(
-                    destination: ConnectedView(),
-                    label: { Text("Bluetooth1") }
-                )
-                NavigationLink(
-                    destination: ConnectedView(),
-                    label: { Text("Bluetooth2") }
-                )
-                NavigationLink(
-                    destination: ConnectedView(),
-                    label: { Text("Bluetooth3") }
-                )
-                NavigationLink(
-                    destination: ConnectedView(),
-                    label: { Text("Bluetooth4") }
-                )
-                NavigationLink(
-                    destination: ConnectedView(),
-                    label: { Text("Bluetooth5") }
-                )
-                NavigationLink(
-                    destination: ConnectedView(),
-                    label: { Text("Bluetooth6") }
-                )
-                NavigationLink(
-                    destination: ConnectedView(),
-                    label: { Text("Bluetooth7") }
-                )
-                NavigationLink(
-                    destination: ConnectedView(),
-                    label: { Text("Bluetooth8") }
-                )
-                NavigationLink(
-                    destination: ConnectedView(),
-                    label: { Text("Bluetooth9") }
+                    destination: ConnectedView(peripheral: peripheral), label: { Text(peripheral.name) }
                 )
             }
-            .navigationBarItems(trailing: Button(action: connectBLEDevice) {
+            .navigationBarItems(trailing: Button(action: refresh) {
                 Label("Reload", systemImage: "arrow.counterclockwise")
                     .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
             }
@@ -59,7 +28,8 @@ struct BluetoothListView: View {
         }
     }
     
-    private func connectBLEDevice(){
+    private func refresh() {
+        ble.peripherals.removeAll()
         ble.startCentralManager()
     }
 }

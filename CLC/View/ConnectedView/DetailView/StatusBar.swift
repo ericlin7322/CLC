@@ -8,9 +8,15 @@
 import SwiftUI
 
 struct StatusBar: View {
-    @Binding var name: String
+    @Binding var status: Status
     var body: some View {
-        Label(name, systemImage: "bolt.horizontal.fill")
-            .font(.headline)
+        switch status {
+        case .following:
+            Label("Status: Following", systemImage: "bolt.horizontal.fill")
+                .font(.headline)
+        case .unfollowing:
+            Label("Status: Unfollowing", systemImage: "bolt.horizontal")
+                .font(.headline)
+        }
     }
 }

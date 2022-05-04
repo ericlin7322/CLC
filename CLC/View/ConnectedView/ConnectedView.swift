@@ -6,11 +6,15 @@
 //
 
 import SwiftUI
+import CoreBluetooth
 
 struct ConnectedView: View {
+    @ObservedObject var ble = BLEConnection.instance
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @State var status = Car.now.status
     @State var showAlert = false
+    var peripheral: Peripheral?
     var body: some View {
         VStack {
             Spacer()
@@ -18,6 +22,10 @@ struct ConnectedView: View {
             Spacer()
             FunctionView()
             Spacer()
+        }.onAppear {
+            if peripheral != nil {
+                ble.connect(peripheral: peripheral!)
+            }
         }
         .navigationBarBackButtonHidden(true)
         .navigationBarTitle("Auto Upstair Following Car", displayMode: .inline)
@@ -32,6 +40,8 @@ struct ConnectedView: View {
     }
     
     private func disconnectBLEDevice() {
+        status = .unfollowing
+        ble.disconnect(peripheral: peripheral!)
         self.presentationMode.wrappedValue.dismiss()
     }
 }
